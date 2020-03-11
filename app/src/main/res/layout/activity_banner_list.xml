@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2">
+
+    <include
+        android:id="@+id/ll_title"
+        layout="@layout/common_titlebar" />
+
+    <com.xjt.ordershop.widget.CustomSwipeRefreshLayout
+        android:id="@+id/common_swiprefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_title"
+        android:layout_marginBottom="70dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_goods_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" />
+
+    </com.xjt.ordershop.widget.CustomSwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/banner_add_tv"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/common_tv_corner"
+            android:gravity="center"
+            android:maxLength="11"
+            android:text="添加"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/banner_remove_all_tv"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/common_tv_corner"
+            android:gravity="center"
+            android:maxLength="11"
+            android:text="清空所有数据"
+            android:textColor="#ffffff" />
+
+    </LinearLayout>
+
+</RelativeLayout>

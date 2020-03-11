@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/click_test_tv"
+            android:layout_width="1dp"
+            android:layout_height="1dp" />
+
+        <EditText
+            android:id="@+id/login_phone_et"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="11dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入手机号"
+            android:inputType="number"
+            android:maxLength="11"
+            android:textColor="#333"
+            android:textColorHint="#dddddd"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/login_username_et"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="11dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入用户名"
+            android:textColor="#333"
+            android:textColorHint="#dddddd"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/login_email_et"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="11dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入邮箱"
+            android:textColor="#333"
+            android:textColorHint="#dddddd"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/login_good_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/common_tv_corner"
+            android:gravity="center"
+            android:maxLength="11"
+            android:text="商品操作界面"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/login_setting_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/common_tv_corner"
+            android:gravity="center"
+            android:maxLength="11"
+            android:text="设置操作界面"
+            android:textColor="#ffffff" />
+
+
+        <Button
+            android:id="@+id/login_login_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/common_tv_corner"
+            android:gravity="center"
+            android:maxLength="11"
+            android:text="注册"
+            android:textColor="#ffffff" />
+
+
+        <Button
+            android:id="@+id/login_user_list_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/common_tv_corner"
+            android:gravity="center"
+            android:maxLength="11"
+            android:text="获取全部数据"
+            android:textColor="#ffffff" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/app_user_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

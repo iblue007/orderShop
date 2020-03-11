@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">智能点餐系统</string>
+
+
+    <!-- 服务端响应码提示 -->
+    <string name="server_response_dict_success">Success</string>
+    <string name="server_response_dict_no_imp">Interface not implemented</string>
+    <string name="server_response_dict_no_login">User not logged in</string>
+    <string name="server_response_dict_invalidate_code">Invalid interface number</string>
+    <string name="server_response_dict_params_error">Parameter error</string>
+    <string name="server_response_dict_params_illegal">Illegal parameters</string>
+    <string name="server_response_dict_verify_error">Data verification failed</string>
+    <string name="server_response_dict_encript_error">Data encryption failed</string>
+    <string name="server_response_dict_decript_error">Data decryption failed</string>
+    <string name="server_response_dict_body_too_long">The requested data sent is too long</string>
+    <string name="server_response_dict_server_maintain">Server maintenance</string>
+    <string name="server_response_dict_inner_error">Server internal error</string>
+    <string name="server_response_dict_client_data_decode_error">Client data parsing failed</string>
+    <string name="server_response_dict_data_error">Data processing exception</string>
+    <string name="server_response_dict_data_null">The data is empty</string>
+    <string name="server_response_dict_unknown_error">An unknown exception occurred while accessing the service!</string>
+    <!-- 服务端响应码提示 -->
+</resources>

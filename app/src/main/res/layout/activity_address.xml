@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/common_titlebar" />
+
+    <EditText
+        android:id="@+id/activity_address_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="11dp"
+        android:background="@drawable/edit_bg_coner_transfer"
+        android:hint="联系人姓名"
+        android:padding="10dp"
+        android:textColor="#ff333333"
+        android:textColorHint="#dddddd"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/activity_address_phone_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="11dp"
+        android:background="@drawable/edit_bg_coner_transfer"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:hint="联系人电话"
+        android:padding="10dp"
+        android:textColor="#ff333333"
+        android:textColorHint="#dddddd"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:id="@+id/my_setting_address_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="11dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:gravity="center_vertical"
+            android:text="所在地区"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/activity_address_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:text="点击选择"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="11dp"
+            android:background="@drawable/corelib_common_enter" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/activity_address_detail_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:layout_gravity="center"
+        android:gravity="left|top"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="11dp"
+        android:background="@drawable/edit_bg_coner_transfer"
+        android:inputType="textMultiLine"
+        android:hint="详细地址：如道路、门牌号、小区、楼栋号、单元室等1"
+        android:padding="10dp"
+        android:textColor="#ff333333"
+        android:textColorHint="#dddddd"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/activity_address_submit_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/tv_voice"
+        android:layout_gravity="center"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="11dp"
+        android:background="@drawable/common_tv_corner"
+        android:gravity="center"
+        android:text="确认保存"
+        android:textColor="#ffffff" />
+
+</LinearLayout>

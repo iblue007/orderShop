@@ -1,0 +1,62 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'com.jakewharton.butterknife'
+android {
+    def versions = rootProject.ext.android
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion versions.buildToolsVersion
+    defaultConfig {
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //添加了javaCompileOptions
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    def deps = rootProject.ext.dependencies
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    api deps["design"]
+    api deps.eventbus
+    api deps.okhttp
+    api deps.multidex
+    api deps.gson
+    api deps.banner
+    api deps.aspectjrt
+    api deps.immnersionbar
+    api deps.immersionbar_components
+//    api deps.zxing
+    api deps.butterknife
+    api deps.butterknife_compiler
+  //  api deps.qiniu
+    //api deps.weixin_share
+    api(name: 'library-releasev1.0', ext: 'aar')
+}
+android {
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+

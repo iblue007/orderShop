@@ -1,0 +1,50 @@
+ext {
+    SUPPORT_VERSION = "28.0.0"
+    android = [compileSdkVersion: 28,
+               buildToolsVersion: "28.0.3",
+               applicationId    : "com.xjt.ordershop",
+               minSdkVersion    : 16,
+               targetSdkVersion : 26,
+               versionCode      : 1110,
+               versionName      : "1.1.1"]
+
+    dependencies = [
+            //Android系统
+            "support-v7"           : "com.android.support:appcompat-v7:${SUPPORT_VERSION}",
+            "support-v4"           : "com.android.support:support-v4:${SUPPORT_VERSION}",
+            "design"               : "com.android.support:design:${SUPPORT_VERSION}",
+            "cardview-v7"          : "com.android.support:cardview-v7:${SUPPORT_VERSION}",
+            eventbus               : 'org.greenrobot:eventbus:3.0.0',
+            okhttp                 : 'com.squareup.okhttp3:okhttp:3.13.1',
+            multidex               : "com.android.support:multidex:1.0.3",
+            gson                   : 'com.google.code.gson:gson:2.8.2',
+            zxing                  : 'com.google.zxing:core:3.3.0',
+            aspectjrt              : 'org.aspectj:aspectjrt:1.8.13',
+            butterknife            : 'com.jakewharton:butterknife:8.5.1',
+            butterknife_compiler   : 'com.jakewharton:butterknife-compiler:8.5.1',
+            qiniu                  : 'com.qiniu:qiniu-android-sdk:7.3.15',
+            eventbus               : 'org.greenrobot:eventbus:3.0.0',
+            weixin_share           : "com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+",
+            banner                 : "com.youth.banner:banner:1.4.10",
+            immnersionbar          : "com.gyf.immersionbar:immersionbar:3.0.0-beta04",
+            immersionbar_components: "com.gyf.immersionbar:immersionbar-components:3.0.0-beta04"
+
+    ]
+
+    //支持签名文件路径自定义
+    Properties properties = new Properties()
+    File configFile = project.rootProject.file('local.properties')
+    if (configFile.exists()) {
+        properties.load(configFile.newDataInputStream())
+    }
+    def signPath = properties.getProperty('key.file')
+    signPath = signPath ? signPath : "D:\\sigin\\android.keystore"
+
+    release = [
+            SIGN_FILE: signPath,
+            STORE_PWD: 'dpzx123456',
+            KEY_ALIAS: 'android.keystore',
+            KEY_PWD  : 'dpzx123456'
+    ]
+
+}
