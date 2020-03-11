@@ -23,6 +23,7 @@ import com.xjt.ordershop.adapter.WrapWrongLinearLayoutManger;
 import com.xjt.ordershop.aop.checkLogin.CheckLoginImpl;
 import com.xjt.ordershop.base.BaseActivity;
 import com.xjt.ordershop.base.basehttp.ServerResult;
+import com.xjt.ordershop.util.BaseConfigPreferences;
 import com.xjt.ordershop.util.CommonUtil;
 import com.xjt.ordershop.util.Global;
 import com.xjt.ordershop.util.MessageUtils;
@@ -97,9 +98,22 @@ public class CategoryActivity extends BaseActivity {
             @CheckLoginImpl
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Intent intent = new Intent();
-                intent.setClass(CategoryActivity.this, GoodInfoActivity.class);
-                startActivity(intent);
+                Good good = (Good) baseQuickAdapter.getData().get(i);
+                int loginUserRole = BaseConfigPreferences.getInstance(CategoryActivity.this).getLoginUserRole();
+                if (loginUserRole == 0) {
+                    Intent intent1 = new Intent();
+                    intent1.setClass(CategoryActivity.this, GoodInfoActivity.class);
+                    intent1.putExtra(GoodInfoActivity.KEY_EDIT, true);
+                    intent1.putExtra(GoodInfoActivity.KEY_GOOD_ID, good.getId());
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent1);
+                } else {
+                    Intent intent2 = new Intent();
+                    intent2.setClass(CategoryActivity.this, GoodDetailActivity.class);
+                    intent2.putExtra(GoodDetailActivity.KEY_GOOD_ID, good.getId());
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent2);
+                }
             }
         });
 //        commonDataListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {

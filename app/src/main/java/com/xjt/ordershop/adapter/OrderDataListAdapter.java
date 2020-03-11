@@ -58,7 +58,8 @@ public class OrderDataListAdapter extends BaseAdapter<Order, BaseViewHolder> {
                 ThreadUtil.executeMore(new Runnable() {
                     @Override
                     public void run() {
-                        ServerResult<CommonResultMessage> commonResultMessageServerResult = NetApiUtil.udpateOrder(good.getId(), good.getGoodId(), good.getCategoryId(), (good.getGoodState() + 1), good.getGoodName(), good.getGoodDetail(), good.getGoodDiscount() + "",
+                        good.setGoodState(good.getGoodState() + 1);
+                        ServerResult<CommonResultMessage> commonResultMessageServerResult = NetApiUtil.udpateOrder(good.getId(), good.getGoodId(), good.getCategoryId(), good.getGoodState(), good.getGoodName(), good.getGoodDetail(), good.getGoodDiscount() + "",
                                 good.getGoodPrice() + "", good.getGoodPic());
                         Global.runInMainThread(new Runnable() {
                             @Override
@@ -66,7 +67,7 @@ public class OrderDataListAdapter extends BaseAdapter<Order, BaseViewHolder> {
                                 if (commonResultMessageServerResult != null && commonResultMessageServerResult.getResultBean() != null) {
                                     CommonResultMessage resultBean = commonResultMessageServerResult.getResultBean();
                                     MessageUtils.show(mContext, resultBean.getMessage());
-                                    orderStateDo(good.getGoodState() + 1,stateTv,stateDoBt);
+                                    orderStateDo(good.getGoodState(), stateTv, stateDoBt);
                                 } else {
                                     MessageUtils.show(mContext, "程序出错，请稍后再试！");
                                 }
@@ -79,15 +80,15 @@ public class OrderDataListAdapter extends BaseAdapter<Order, BaseViewHolder> {
         ImageLoader.getInstance().displayImage(good.getGoodPic(), picIv);
         titleTv.setText(good.getGoodName());
         discountTv.setText("折扣：" + CommonUtil.stripZeros(good.getGoodDiscount() + ""));
-        priceTv.setText("价格：" + CommonUtil.stripZeros(CommonUtil.mul(Double.parseDouble(good.getGoodPrice()), Double.parseDouble(good.getGoodDiscount())) + ""));
+        priceTv.setText("价格：" + CommonUtil.stripZeros(CommonUtil.mul(Double.parseDouble(good.getGoodPrice()), Double.parseDouble(good.getGoodDiscount()) / 10) + ""));
         // categoryTc.setText("所属分类：" + good.getCategoryName());
 
         int goodState = good.getGoodState();
         stateDoBt.setVisibility(View.GONE);
-        orderStateDo(goodState,stateTv,stateDoBt);
+        orderStateDo(goodState, stateTv, stateDoBt);
     }
 
-    private void orderStateDo(int goodState,TextView stateTv,Button stateDoBt) {
+    private void orderStateDo(int goodState, TextView stateTv, Button stateDoBt) {
         int loginUserRole = BaseConfigPreferences.getInstance(mContext).getLoginUserRole();
         if (goodState == 0) {
             stateTv.setText("状态：已下单");

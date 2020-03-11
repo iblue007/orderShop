@@ -350,9 +350,48 @@
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/call_phone" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffebebeb" />
+
+            <LinearLayout
+                android:id="@+id/good_order_gettype_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="46dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:text="订单类型"
+                    android:textColor="#222222"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/good_order_gettype_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="外卖"
+                    android:padding="5dp"
+                    android:textColor="#333"
+                    android:textColorHint="#dddddd"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -371,6 +410,7 @@
                 android:paddingRight="11dp">
 
                 <TextView
+                    android:id="@+id/good_order_address_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="46dp"
                     android:layout_marginRight="20dp"

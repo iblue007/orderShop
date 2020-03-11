@@ -47,19 +47,19 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.common_toolbar_rl)
     RelativeLayout commonToolbarRl;
     public static String VALUE_TYPE = "value_type";
-    private int fromType = 0;//1：设置ip 2：添加用户
+    private int fromType = 0;//1：设置ip 2：添加用户 3: 设置餐厅地址
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
-        String ipValue = BaseConfigPreferences.getInstance(SettingActivity.this).getValue(BaseConfigPreferences.APP_IP, "127.0.0.1");
-        if (!TextUtils.isEmpty(ipValue)) {
-            settingIpEt.setText(ipValue);
-        }
         fromType = getIntent().getIntExtra(VALUE_TYPE, 0);
         if (fromType == 1) {
+            String ipValue = BaseConfigPreferences.getInstance(SettingActivity.this).getValue(BaseConfigPreferences.APP_IP, "127.0.0.1");
+            if (!TextUtils.isEmpty(ipValue)) {
+                settingIpEt.setText(ipValue);
+            }
             commonTitleTv.setText("修改ip地址");
             settingIpEt.setVisibility(View.VISIBLE);
             passwordEt.setVisibility(View.GONE);
@@ -73,6 +73,13 @@ public class SettingActivity extends BaseActivity {
             passwordEt2.setVisibility(View.VISIBLE);
             mobileEt.setVisibility(View.VISIBLE);
             nameEt.setVisibility(View.VISIBLE);
+        } else if (fromType == 3) {
+            commonTitleTv.setText("设置餐厅地址");
+            settingIpEt.setVisibility(View.VISIBLE);
+            passwordEt.setVisibility(View.GONE);
+            passwordEt2.setVisibility(View.GONE);
+            mobileEt.setVisibility(View.GONE);
+            nameEt.setVisibility(View.GONE);
         }
 
     }
@@ -130,6 +137,14 @@ public class SettingActivity extends BaseActivity {
             } else {
                 MessageUtils.show(SettingActivity.this, "输入的内容不合法");
             }
+        }
+        if (fromType == 3) {
+            String addressStr = settingIpEt.getText().toString();
+            if (!TextUtils.isEmpty(addressStr)) {
+                BaseConfigPreferences.getInstance(SettingActivity.this).setValue(BaseConfigPreferences.LOGIN_SHOP_ADDRESS, addressStr);
+                MessageUtils.show(SettingActivity.this, "保存成功");
+            }
+            finish();
         }
     }
 

@@ -1,7 +1,14 @@
 <resources>
-    <string name="app_name">智能点餐系统</string>
+    <string name="app_name">餐厅点餐系统</string>
 
 
+    <string name="action_settings">Settings</string>
+
+<!--    <string name="pay_title">请输入支付密码</string>-->
+    <string name="pay_sure">确认支付</string>
+    <string name="pay_cancel">取消</string>
+    <string name="pay_content">消费金额：34.50元</string>
+    <string name="pay_title" >请输入支付密码</string>
     <!-- 服务端响应码提示 -->
     <string name="server_response_dict_success">Success</string>
     <string name="server_response_dict_no_imp">Interface not implemented</string>
@@ -20,4 +27,5 @@
     <string name="server_response_dict_data_null">The data is empty</string>
     <string name="server_response_dict_unknown_error">An unknown exception occurred while accessing the service!</string>
     <!-- 服务端响应码提示 -->
+
 </resources>

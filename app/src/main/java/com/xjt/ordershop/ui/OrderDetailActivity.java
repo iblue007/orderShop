@@ -72,6 +72,12 @@ public class OrderDetailActivity extends BaseActivity {
     TextView buyerTv;
     @BindView(R.id.good_order_phone_ll)
     LinearLayout phoneLL;
+    @BindView(R.id.good_order_gettype_ll)
+    LinearLayout getTypeLL;
+    @BindView(R.id.good_order_gettype_tv)
+    TextView getTypeTv;
+    @BindView(R.id.good_order_address_title_tv)
+    TextView addressTitleTv;
     @BindView(R.id.good_order_phone_iv)
     ImageView phoneIv;
     public static String KEY_ORDER_ID = "key_order_id";
@@ -147,9 +153,17 @@ public class OrderDetailActivity extends BaseActivity {
                                             ImageLoader.getInstance().displayImage(orderBean.getGoodPic(), imageView);
                                             buyerTv.setText(orderBean.getBuyerName());
                                             phoneTv.setText(orderBean.getBuyerphone());
-                                            addressTv.setText(orderBean.getBuyerAddress());
-                                            priceTv.setText(CommonUtil.stripZeros(CommonUtil.mul(Double.parseDouble(orderBean.getGoodPrice()), Double.parseDouble(orderBean.getGoodDiscount())) + ""));
+                                            priceTv.setText(CommonUtil.stripZeros(CommonUtil.mul(Double.parseDouble(orderBean.getGoodPrice()), Double.parseDouble(orderBean.getGoodDiscount()) / 10) + ""));
                                             orderNoTv.setText(orderId + "");
+                                            if (orderBean.getGetTypeInt() == 1) {
+                                                getTypeTv.setText("外卖");
+                                                addressTitleTv.setText("送货地址");
+                                                addressTv.setText(orderBean.getBuyerAddress());
+                                            } else if (orderBean.getGetTypeInt() == 2) {
+                                                getTypeTv.setText("自取");
+                                                addressTitleTv.setText("取货地址");
+                                                addressTv.setText(orderBean.getShopAddress());
+                                            }
                                         }
                                     } catch (Exception e) {
                                         e.printStackTrace();

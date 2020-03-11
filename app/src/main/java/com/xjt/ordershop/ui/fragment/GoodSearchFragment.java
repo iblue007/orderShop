@@ -35,6 +35,7 @@ import com.xjt.ordershop.ui.GoodDetailActivity;
 import com.xjt.ordershop.ui.GoodInfoActivity;
 import com.xjt.ordershop.ui.GoodSearchActivity;
 import com.xjt.ordershop.ui.MainActivity;
+import com.xjt.ordershop.util.BaseConfigPreferences;
 import com.xjt.ordershop.util.CommonUtil;
 import com.xjt.ordershop.util.Global;
 import com.xjt.ordershop.util.LogUtils;
@@ -71,6 +72,7 @@ public class GoodSearchFragment extends BaseFragment {
 
     private CommonDataListAdapter commonDataListAdapter;
     private OnObjectCallback onObjectCallback;
+    private String searchStr;
 
     @Nullable
     @Override
@@ -98,6 +100,12 @@ public class GoodSearchFragment extends BaseFragment {
             backRl.setVisibility(View.VISIBLE);
         }
         mSwipRefresh.setVisibility(View.GONE);
+        mSwipRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                searchGood(null);
+            }
+        });
         return inflate;
     }
 
@@ -122,10 +130,21 @@ public class GoodSearchFragment extends BaseFragment {
                     onObjectCallback.onClickCallBack(good.getId(), good.getGoodName(), good.getGoodPic());
                 } else {
                     int id = commonDataListAdapter.getData().get(i).getId();
-                    Intent intent = new Intent();
-                    intent.setClass(getContext(), GoodDetailActivity.class);
-                    intent.putExtra(GoodDetailActivity.KEY_GOOD_ID, id);
-                    startActivity(intent);
+                    int loginUserRole = BaseConfigPreferences.getInstance(getContext()).getLoginUserRole();
+                    if (loginUserRole == 0) {
+                        Intent intent1 = new Intent();
+                        intent1.setClass(getContext(), GoodInfoActivity.class);
+                        intent1.putExtra(GoodInfoActivity.KEY_EDIT, true);
+                        intent1.putExtra(GoodInfoActivity.KEY_GOOD_ID, id);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent1);
+                    } else {
+                        Intent intent2 = new Intent();
+                        intent2.setClass(getContext(), GoodDetailActivity.class);
+                        intent2.putExtra(GoodDetailActivity.KEY_GOOD_ID, id);
+                        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent2);
+                    }
                 }
             }
         });
@@ -151,7 +170,7 @@ public class GoodSearchFragment extends BaseFragment {
 
     @SingleClick
     private void searchGood(View view) {
-        String searchStr = searchEt.getText().toString();
+        searchStr = searchEt.getText().toString();
         if (TextUtils.isEmpty(searchStr)) {
             MessageUtils.show(getContext(), "搜索关键词不能为空");
             return;

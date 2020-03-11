@@ -23,8 +23,10 @@ import com.xjt.ordershop.R;
 import com.xjt.ordershop.adapter.CommonDataListAdapter;
 import com.xjt.ordershop.adapter.WrapWrongLinearLayoutManger;
 import com.xjt.ordershop.aop.checkLogin.CheckLoginImpl;
+import com.xjt.ordershop.aop.singleclick.SingleClick;
 import com.xjt.ordershop.base.BaseFragment;
 import com.xjt.ordershop.base.basehttp.ServerResult;
+import com.xjt.ordershop.callback.OnClickItemCallBack;
 import com.xjt.ordershop.ui.BannerListActivity;
 import com.xjt.ordershop.ui.CategoryActivity;
 import com.xjt.ordershop.ui.GoodDetailActivity;
@@ -37,6 +39,7 @@ import com.xjt.ordershop.util.LogUtils;
 import com.xjt.ordershop.util.MessageUtils;
 import com.xjt.ordershop.util.NetApiUtil;
 import com.xjt.ordershop.util.ThreadUtil;
+import com.xjt.ordershop.widget.DeleteTipDialog;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -120,6 +123,23 @@ public class HomeFragment extends BaseFragment {
                 }
             }
         });
+        commonDataListAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @SingleClick
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                DeleteTipDialog deleteTipDialog = new DeleteTipDialog(getContext());
+                deleteTipDialog.show();
+                deleteTipDialog.setOnClickItemCallBack(new OnClickItemCallBack() {
+                    @Override
+                    public void onClickCallBack(String... value) {
+                        deleteTipDialog.dismiss();
+                        Good good = (Good) baseQuickAdapter.getData().get(i);
+                        deleteGoodById(good.getId());
+                    }
+                });
+                return false;
+            }
+        });
         commonDataListAdapter.disableLoadMoreIfNotFullPage(mRecyclerView);
         commonDataListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -134,6 +154,27 @@ public class HomeFragment extends BaseFragment {
                 page = 1;
                 initData();
                 initBannerData();
+            }
+        });
+    }
+
+    private void deleteGoodById(int id) {
+        ThreadUtil.executeMore(new Runnable() {
+            @Override
+            public void run() {
+                ServerResult<CommonResultMessage> commonResultMessageServerResult = NetApiUtil.deleteGoodById(id);
+                Global.runInMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (commonResultMessageServerResult != null && commonResultMessageServerResult.getResultBean() != null) {
+                            CommonResultMessage resultBean = commonResultMessageServerResult.getResultBean();
+                            MessageUtils.show(getContext(), resultBean.getMessage());
+                            initData();
+                        } else {
+                            MessageUtils.show(getContext(), "程序出错，请稍后再试！");
+                        }
+                    }
+                });
             }
         });
     }
@@ -250,10 +291,21 @@ public class HomeFragment extends BaseFragment {
                             BannerBean bannerBean = bannerList.get(position);
                             int getbType = bannerBean.getbType();
                             if (getbType == 1) {
-                                Intent intent = new Intent();
-                                intent.setClass(getContext(), GoodDetailActivity.class);
-                                intent.putExtra(GoodDetailActivity.KEY_GOOD_ID, bannerBean.getGoodId());
-                                startActivity(intent);
+                                int loginUserRole = BaseConfigPreferences.getInstance(getContext()).getLoginUserRole();
+                                if (loginUserRole == 0) {
+                                    Intent intent1 = new Intent();
+                                    intent1.setClass(getContext(), GoodInfoActivity.class);
+                                    intent1.putExtra(GoodInfoActivity.KEY_EDIT, true);
+                                    intent1.putExtra(GoodInfoActivity.KEY_GOOD_ID, bannerBean.getGoodId());
+                                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent1);
+                                } else {
+                                    Intent intent2 = new Intent();
+                                    intent2.setClass(getContext(), GoodDetailActivity.class);
+                                    intent2.putExtra(GoodDetailActivity.KEY_GOOD_ID, bannerBean.getGoodId());
+                                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent2);
+                                }
                             } else if (getbType == 2) {
                                 Intent intent = new Intent();
                                 intent.setClass(getContext(), CategoryActivity.class);

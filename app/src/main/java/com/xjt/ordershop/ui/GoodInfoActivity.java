@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xjt.baselib.bean.CommonResultMessage;
@@ -25,6 +26,8 @@ import com.xjt.ordershop.aop.singleclick.SingleClick;
 import com.xjt.ordershop.base.BaseActivity;
 import com.xjt.ordershop.base.basehttp.ServerResult;
 import com.xjt.ordershop.util.BitmapUtil;
+import com.xjt.ordershop.util.CommonUtil;
+import com.xjt.ordershop.util.Global;
 import com.xjt.ordershop.util.LogUtils;
 import com.xjt.ordershop.util.MessageUtils;
 import com.xjt.ordershop.util.NetApiUtil;
@@ -67,7 +70,9 @@ public class GoodInfoActivity extends BaseActivity {
 
     public static String KEY_EDIT = "key_edit";
     public static String KEY_GOOD = "key_good";
+    public static String KEY_GOOD_ID = "key_good_id";
     private Good good = null;
+    private int goodId = 0;
     private String goodPic = null;
 
     @Override
@@ -76,24 +81,69 @@ public class GoodInfoActivity extends BaseActivity {
         setContentView(R.layout.activity_good_info);
         ButterKnife.bind(this);
         good = (Good) getIntent().getSerializableExtra(KEY_GOOD);
-        if (good == null) {
+        goodId = getIntent().getIntExtra(KEY_GOOD_ID, 0);
+        if (good == null && goodId == 0) {
             commonTitleTv.setText("添加商品");
             goodAddBt.setText("添加商品");
         } else {
             commonTitleTv.setText("修改商品");
             goodAddBt.setText("修改商品");
-            goodNameEt.setText(good.getGoodName());
-            goodDetailEt.setText(good.getGoodDetail());
-            goodPriceEt.setText(good.getGoodPrice() + "");
-            goodDiscountEt.setText(good.getGoodDiscount() + "");
-            goodCategoryTv.setText(good.getCategoryName());
-            goodCategoryTv.setTag(good.getCategoryId());
-            goodPic = good.getGoodPic();
-            ImageLoader.getInstance().displayImage(goodPic, goodImageIv);
+            if(good != null){
+                goodNameEt.setText(good.getGoodName());
+                goodDetailEt.setText(good.getGoodDetail());
+                goodPriceEt.setText(good.getGoodPrice() + "");
+                goodDiscountEt.setText(good.getGoodDiscount() + "");
+                goodCategoryTv.setText(good.getCategoryName());
+                goodCategoryTv.setTag(good.getCategoryId());
+                goodPic = good.getGoodPic();
+                ImageLoader.getInstance().displayImage(goodPic, goodImageIv);
+            }else {
+                getGoodById(goodId);
+            }
         }
         ImmersionBar.with(this).statusBarView(statusBarView)
                 .statusBarDarkFont(true, 0.2f)
                 .init();
+    }
+
+    private void getGoodById(int goodId) {
+        ThreadUtil.executeMore(new Runnable() {
+            @Override
+            public void run() {
+                ServerResult<CommonResultMessage> goodsCookBookDetail = NetApiUtil.getGoodListByID(goodId);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (goodsCookBookDetail != null && goodsCookBookDetail.getResultBean() != null) {
+                            CommonResultMessage resultBean = goodsCookBookDetail.getResultBean();
+                            if (resultBean.isSuccess()) {
+                                String message = resultBean.getMessage();
+                                if (!TextUtils.isEmpty(message)) {
+                                    try {
+                                        good = new Gson().fromJson(message, Good.class);
+                                        if (good != null) {
+                                            goodNameEt.setText(good.getGoodName());
+                                            goodDetailEt.setText(good.getGoodDetail());
+                                            goodPriceEt.setText(good.getGoodPrice() + "");
+                                            goodDiscountEt.setText(good.getGoodDiscount() + "");
+                                            goodCategoryTv.setText(good.getCategoryName());
+                                            goodCategoryTv.setTag(good.getCategoryId());
+                                            goodPic = good.getGoodPic();
+                                            ImageLoader.getInstance().displayImage(goodPic, goodImageIv);
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        MessageUtils.show(GoodInfoActivity.this, message);
+                                    }
+                                }
+                            }
+                        } else {
+                            MessageUtils.show(GoodInfoActivity.this, "程序出错，请稍后再试！");
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @OnClick({R.id.good_pic_bt, R.id.good_add_tv, R.id.common_back_rl, R.id.good_category_et})

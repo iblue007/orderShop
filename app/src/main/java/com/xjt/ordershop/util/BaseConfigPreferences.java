@@ -26,10 +26,12 @@ public class BaseConfigPreferences {
     public static final String LOGIN_ACCOUNT = "login_account";
     public static final String APP_GUID = "app_dpzx_guid";
     public static final String APP_IP = "app_ip";//当前电脑的ip
+    public static final String APP_PAY_PASSWORD = "app_pay_password";//当前电脑的ip
     public static final String LOGIN_NAME = "login_name";
     public static final String LOGIN_ADDRESS = "login_address";
     public static final String LOGIN_USER_ROLE = "login_user_role";
     public static final String LOGIN_USER_ID = "login_user_id";
+    public static final String LOGIN_SHOP_ADDRESS = "login_shop_address";
 
 
     public void setLoginUserId(int userId) {

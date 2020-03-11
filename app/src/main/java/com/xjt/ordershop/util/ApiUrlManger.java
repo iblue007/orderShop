@@ -17,8 +17,9 @@ public class ApiUrlManger {
     public static String API_GOOD_LIST = "/good/goodList";
     public static String API_GOOD_UPDATE = "/good/udpate";
     public static String API_GOOD_LIST_BY_KEY = "/good/goodListByKey";
-    public static String API_GOOD_LIST_BY_ID = "/good/selectUserById";
+    public static String API_GOOD_LIST_BY_ID = "/good/selectGoodById";
     public static String API_GOOD_LIST_BY_CID = "/good/goodListByCategoryId";
+    public static String API_GOOD_DELETE_BY_ID = "/good/deleteGoodById";
 
     public static String API_CATEGORY_LIST = "/category/categoryList";
     public static String API_CATEGORY_ADD = "/category/insertCategory";
@@ -35,6 +36,7 @@ public class ApiUrlManger {
     public static String API_ORDER_BY_ID = "/order/getOrderById";
 
     public static String API_ADDRESS_LIST = "/address/addressList";
+    public static String API_ADDRESS_DEFAULT = "/address/getAddressDefault";
     public static String API_ADDRESS_DELETE_BY_ID = "/address/deleteAddressById";
     public static String API_ADDRESS_INSERT = "/address/insertAddress";
     public static String API_ADDRESS_UPDATE = "/address/updateAddress";

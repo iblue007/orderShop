@@ -40,6 +40,7 @@ public class AddressDataListAdapter extends BaseAdapter<Address, BaseViewHolder>
         super(R.layout.address_data_item, data);
     }
 
+    private boolean noShowState = false;
     private OnObjectCallback onObjectCallback;
 
     public AddressDataListAdapter(int layoutResId) {
@@ -56,21 +57,26 @@ public class AddressDataListAdapter extends BaseAdapter<Address, BaseViewHolder>
         titleTv.setText(address.getName());
         phoneTv.setText(address.getPhone());
         addressTv.setText(address.getAddress() + " " + address.getAddressDetail());
-        if (address.getState() == 0) {
-            stateTv.setText("设为默认地址");
-            stateTv.setTextColor(Color.parseColor("#ff0000"));
-        } else {
-            stateTv.setText("默认地址");
-            stateTv.setTextColor(Color.parseColor("#999999"));
-        }
-        stateTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (address.getState() == 0) {
-                    updateAddress(v, address);
-                }
+        if (!noShowState) {
+            stateTv.setVisibility(View.VISIBLE);
+            if (address.getState() == 0) {
+                stateTv.setText("设为默认地址");
+                stateTv.setTextColor(Color.parseColor("#ff0000"));
+            } else {
+                stateTv.setText("默认地址");
+                stateTv.setTextColor(Color.parseColor("#999999"));
             }
-        });
+            stateTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (address.getState() == 0) {
+                        updateAddress(v, address);
+                    }
+                }
+            });
+        }else {
+            stateTv.setVisibility(View.GONE);
+        }
     }
 
     @SingleClick
@@ -109,5 +115,9 @@ public class AddressDataListAdapter extends BaseAdapter<Address, BaseViewHolder>
 
     public void setCallBack(OnObjectCallback onObjectCallback1) {
         onObjectCallback = onObjectCallback1;
+    }
+
+    public void setNoShowState(boolean noShowState1) {
+        noShowState = noShowState1;
     }
 }

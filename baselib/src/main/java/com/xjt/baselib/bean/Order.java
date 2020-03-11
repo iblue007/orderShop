@@ -8,9 +8,11 @@ import java.io.Serializable;
 public class Order implements Serializable {
 
     private int id;
+    private int userId;
     private int goodId;
     private int categoryId;
     private int goodState;//0 下单中 1 配送中 2 送达客户手中 3 客户确认收到
+    private int getTypeInt;//1 外卖 2 自取
     private String goodName;
     private String goodDetail;
     private String goodDiscount;
@@ -20,7 +22,31 @@ public class Order implements Serializable {
     private String buyerName;
     private String buyerphone;
     private String buyerAddress;
+    private String shopAddress;
 
+    public String getShopAddress() {
+        return shopAddress;
+    }
+
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
+    }
+
+    public int getGetTypeInt() {
+        return getTypeInt;
+    }
+
+    public void setGetTypeInt(int getTypeInt) {
+        this.getTypeInt = getTypeInt;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public String getBuyerName() {
         return buyerName;

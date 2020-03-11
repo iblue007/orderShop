@@ -1,6 +1,7 @@
 package com.xjt.ordershop.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -56,6 +57,12 @@ public class MyFragment extends BaseFragment {
     RelativeLayout addressRl;
     @BindView(R.id.my_setting_address_tv)
     TextView addressTv;
+    @BindView(R.id.my_setting_userflag_tv)
+    TextView userFlagTv;
+    @BindView(R.id.my_setting_shop_address_rl)
+    RelativeLayout shopAddressRl;
+    @BindView(R.id.my_setting_shop_address_tv)
+    TextView shopAddressTcv;
 
     @Nullable
     @Override
@@ -78,16 +85,27 @@ public class MyFragment extends BaseFragment {
         if (!TextUtils.isEmpty(BaseConfigPreferences.getInstance(getContext()).getLoginAccount())) {
             loginTv.setText("退出登录");
             userNameTv.setText(BaseConfigPreferences.getInstance(getContext()).getValue(BaseConfigPreferences.LOGIN_NAME));
+            if (BaseConfigPreferences.getInstance(getContext()).getLoginUserRole() == 0) {
+                userFlagTv.setText("管理员用户");
+                userFlagTv.setTextColor(Color.parseColor("#008577"));
+            } else {
+                userFlagTv.setText("当前用户");
+                userFlagTv.setTextColor(Color.parseColor("#000000"));
+            }
             userNameRl.setVisibility(View.VISIBLE);
             int loginUserRole = BaseConfigPreferences.getInstance(getContext()).getLoginUserRole();
             if (loginUserRole == 1) {
                 callPhoneRl.setVisibility(View.VISIBLE);
                 bannerRl.setVisibility(View.GONE);
                 addGoodRl.setVisibility(View.GONE);
+                addressRl.setVisibility(View.VISIBLE);
+                shopAddressRl.setVisibility(View.GONE);
             } else {
                 bannerRl.setVisibility(View.VISIBLE);
                 addGoodRl.setVisibility(View.VISIBLE);
                 callPhoneRl.setVisibility(View.GONE);
+                addressRl.setVisibility(View.GONE);
+                shopAddressRl.setVisibility(View.VISIBLE);
             }
         } else {
             loginTv.setText("去登录");
@@ -98,7 +116,7 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.my_setting_ip_rl, R.id.my_setting_logout_tv, R.id.my_setting_banner_rl, R.id.my_setting_good_rl, R.id.my_setting_phone_rl, R.id.my_setting_address_rl})
+    @OnClick({R.id.my_setting_ip_rl, R.id.my_setting_logout_tv, R.id.my_setting_banner_rl, R.id.my_setting_good_rl, R.id.my_setting_phone_rl, R.id.my_setting_shop_address_rl, R.id.my_setting_address_rl})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_setting_ip_rl:
@@ -106,7 +124,11 @@ public class MyFragment extends BaseFragment {
                 intent.putExtra(SettingActivity.VALUE_TYPE, 1);
                 startActivity(intent);
                 break;
-
+            case R.id.my_setting_shop_address_rl:
+                Intent shopAddressIntent = new Intent(getContext(), SettingActivity.class);
+                shopAddressIntent.putExtra(SettingActivity.VALUE_TYPE, 3);
+                startActivity(shopAddressIntent);
+                break;
             case R.id.my_setting_address_rl:
                 startActivityForResult(new Intent(getContext(), AddressListActivity.class), 4000);
                 break;

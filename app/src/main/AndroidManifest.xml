@@ -56,7 +56,7 @@
         android:roundIcon="@drawable/food_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,6 +77,8 @@
         <activity android:name=".ui.AddressSetActivity" />
         <activity android:name=".ui.AddressListActivity" />
         <activity android:name=".ui.OrderDetailActivity" />
+        <activity android:name=".ui.BuyGoodActivity" />
+        <activity android:name=".ui.PayMentActivity" />
     </application>
 
 </manifest>

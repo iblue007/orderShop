@@ -7,19 +7,16 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.gyf.immersionbar.ImmersionBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xjt.baselib.bean.CommonResultMessage;
 import com.xjt.baselib.bean.Good;
-import com.xjt.baselib.bean.Order;
 import com.xjt.baselib.bean.User;
 import com.xjt.ordershop.R;
 import com.xjt.ordershop.aop.singleclick.SingleClick;
@@ -35,8 +32,6 @@ import com.xjt.ordershop.util.NetApiUtil;
 import com.xjt.ordershop.util.ScreenUtil;
 import com.xjt.ordershop.util.ThreadUtil;
 import com.xjt.ordershop.widget.TipDialog;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -127,7 +122,7 @@ public class GoodDetailActivity extends BaseActivity {
         }
     }
 
-    @SingleClick
+    // @SingleClick
     private void addOrder(View view) {
         if (good == null) {
             MessageUtils.show(GoodDetailActivity.this, "参数错误 请退出重试");
@@ -142,36 +137,10 @@ public class GoodDetailActivity extends BaseActivity {
         if (TextUtils.isEmpty(loginAccount)) {
             longAddress = BaseConfigPreferences.getInstance(this).getLoginAddress();
         }
-        if (!TextUtils.isEmpty(longAddress)) {
-            ThreadUtil.executeMore(new Runnable() {
-                @Override
-                public void run() {
-                    ServerResult<CommonResultMessage> commonResultMessageServerResult = NetApiUtil.addOrder(good.getId(), good.getCategoryId(), 0, good.getGoodName(), good.getGoodDetail(),
-                            good.getGoodDiscount() + "", good.getGoodPrice() + "", good.getGoodPic(), loginName, loginAccount, longAddress);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (commonResultMessageServerResult != null && commonResultMessageServerResult.getResultBean() != null) {
-                                CommonResultMessage resultBean = commonResultMessageServerResult.getResultBean();
-                                MessageUtils.show(GoodDetailActivity.this, resultBean.getMessage());
-                            } else {
-                                MessageUtils.show(GoodDetailActivity.this, "程序出错，请稍后再试！");
-                            }
-                        }
-                    });
-                }
-            });
-        } else {
-            TipDialog tipDialog = new TipDialog(GoodDetailActivity.this);
-            tipDialog.show();
-            tipDialog.setOnClickItemCallBack(new OnClickItemCallBack() {
-                @Override
-                public void onClickCallBack(String... value) {
-                    startActivity(new Intent(GoodDetailActivity.this, AddressListActivity.class));
-                }
-            });
-        }
-
+        Intent intent = new Intent();
+        intent.putExtra("good", good);
+        intent.setClass(GoodDetailActivity.this, BuyGoodActivity.class);
+        startActivity(intent);
     }
 
     private void initData() {
@@ -200,7 +169,7 @@ public class GoodDetailActivity extends BaseActivity {
                                             if (!isOrderDetail) {
                                                 priceTv.setText(CommonUtil.stripZeros(good.getGoodPrice() + ""));
                                             } else {
-                                                priceTv.setText(CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), good.getGoodDiscount()) + ""));
+                                                priceTv.setText(CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), good.getGoodDiscount() / 10) + ""));
                                                 orderNoTv.setText(orderId + "");
                                             }
                                         }

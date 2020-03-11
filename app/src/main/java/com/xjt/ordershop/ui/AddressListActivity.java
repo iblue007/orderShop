@@ -16,18 +16,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gyf.immersionbar.ImmersionBar;
 import com.xjt.baselib.bean.Address;
-import com.xjt.baselib.bean.BannerBean;
 import com.xjt.baselib.bean.CommonResultMessage;
 import com.xjt.ordershop.R;
 import com.xjt.ordershop.adapter.AddressDataListAdapter;
-import com.xjt.ordershop.adapter.BannerDataListAdapter;
 import com.xjt.ordershop.adapter.WrapWrongLinearLayoutManger;
 import com.xjt.ordershop.aop.checkLogin.CheckLoginImpl;
 import com.xjt.ordershop.base.BaseActivity;
 import com.xjt.ordershop.base.basehttp.ServerResult;
 import com.xjt.ordershop.callback.OnClickItemCallBack;
 import com.xjt.ordershop.callback.OnObjectCallback;
-import com.xjt.ordershop.util.BaseConfigPreferences;
 import com.xjt.ordershop.util.CommonUtil;
 import com.xjt.ordershop.util.Global;
 import com.xjt.ordershop.util.MessageUtils;
@@ -59,6 +56,8 @@ public class AddressListActivity extends BaseActivity {
     @BindView(R.id.banner_add_tv)
     TextView addTv;
     private AddressDataListAdapter commonDataListAdapter;
+    public static String KEY_ADDRESS_SELECT = "key_address_select";
+    private boolean isSelectView = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +72,7 @@ public class AddressListActivity extends BaseActivity {
     }
 
     private void initView() {
+        isSelectView = getIntent().getBooleanExtra(KEY_ADDRESS_SELECT, false);
         mRecyclerView.setLayoutManager(new WrapWrongLinearLayoutManger(this));
         commonDataListAdapter = new AddressDataListAdapter(null);
         mRecyclerView.setAdapter(commonDataListAdapter);
@@ -81,17 +81,28 @@ public class AddressListActivity extends BaseActivity {
             @CheckLoginImpl
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Address address = (Address) baseQuickAdapter.getData().get(i);
-                Intent intent = new Intent(AddressListActivity.this, AddressSetActivity.class);
-                intent.putExtra(AddressSetActivity.KEY_EDIT, true);
-                intent.putExtra(AddressSetActivity.KEY_ADDRESS, address);
-                startActivity(intent);
+                if (isSelectView) {
+                    Address address = (Address) baseQuickAdapter.getData().get(i);
+                    Intent intent = new Intent(getApplicationContext(), BuyGoodActivity.class);
+                    intent.putExtra("address", address);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    Address address = (Address) baseQuickAdapter.getData().get(i);
+                    Intent intent = new Intent(AddressListActivity.this, AddressSetActivity.class);
+                    intent.putExtra(AddressSetActivity.KEY_EDIT, true);
+                    intent.putExtra(AddressSetActivity.KEY_ADDRESS, address);
+                    startActivity(intent);
+                }
             }
         });
         commonDataListAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @CheckLoginImpl
             @Override
             public boolean onItemLongClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                if (isSelectView) {
+                    return false;
+                }
                 Address address = (Address) baseQuickAdapter.getData().get(i);
                 DeleteTipDialog deleteTipDialog = new DeleteTipDialog(AddressListActivity.this);
                 deleteTipDialog.show();

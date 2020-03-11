@@ -105,6 +105,29 @@ public class NetApiUtil {
         return resTagList;
     }
 
+    public static final ServerResult<CommonResultMessage> getAddressDefault() {
+        int userId = BaseConfigPreferences.getInstance(Global.getContext()).getLoginUserId();
+        String httpStr = "";
+        HashMap<String, String> paramsMap = new HashMap<>();
+        HttpRequestParam.addCommmonPostRequestValue(Global.getApplicationContext(), paramsMap);
+        HttpCommon httpCommon = new HttpCommon(ApiUrlManger.appendUrl(ApiUrlManger.API_ADDRESS_DEFAULT + "?userId=" + userId), null);
+        ServerResultHeader csResult = httpCommon.getResponseAsCsResultGetJson(paramsMap, httpStr);
+        ServerResult<CommonResultMessage> resTagList = new ServerResult<CommonResultMessage>();
+        if (csResult != null) {
+            String responseStr = csResult.getResponseJson();
+            resTagList.setCsResult(csResult);
+            if (!TextUtils.isEmpty(responseStr)) {
+                try {
+                    CommonResultMessage userRegisterCompleteBean = new Gson().fromJson(responseStr, CommonResultMessage.class);
+                    resTagList.setResultBean(userRegisterCompleteBean);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return resTagList;
+    }
+
     public static final ServerResult<CommonResultMessage> getAddressList() {
         int userId = BaseConfigPreferences.getInstance(Global.getContext()).getLoginUserId();
         String httpStr = "";
@@ -175,10 +198,16 @@ public class NetApiUtil {
     }
 
     public static final ServerResult<CommonResultMessage> getOrderList() {
-        String httpStr = "";
+        String url = ApiUrlManger.API_ORDER_LIST;
+        int loginUserRole = BaseConfigPreferences.getInstance(Global.getContext()).getLoginUserRole();
+        int userId = BaseConfigPreferences.getInstance(Global.getContext()).getLoginUserId();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("userId", userId);
+        jsonObject.addProperty("loginUserRole", loginUserRole);
+        String httpStr = jsonObject.toString();
         HashMap<String, String> paramsMap = new HashMap<>();
         HttpRequestParam.addCommmonPostRequestValue(Global.getApplicationContext(), paramsMap);
-        HttpCommon httpCommon = new HttpCommon(ApiUrlManger.appendUrl(ApiUrlManger.API_ORDER_LIST), null);
+        HttpCommon httpCommon = new HttpCommon(ApiUrlManger.appendUrl(url), null);
         ServerResultHeader csResult = httpCommon.getResponseAsCsResultGetJson(paramsMap, httpStr);
         ServerResult<CommonResultMessage> resTagList = new ServerResult<CommonResultMessage>();
         if (csResult != null) {
@@ -196,12 +225,14 @@ public class NetApiUtil {
         return resTagList;
     }
 
-    public static final ServerResult<CommonResultMessage> addOrder(int goodId, int categoryId, int goodState, String goodName, String goodDetail, String goodDiscount,
-                                                                   String goodPrice, String goodPic, String buyerName, String buyerphone, String buyerAddress) {
+    public static final ServerResult<CommonResultMessage> addOrder(int userId, int goodId, int categoryId, int goodState,int getTypeInt, String goodName, String goodDetail, String goodDiscount,
+                                                                   String goodPrice, String goodPic, String buyerName, String buyerphone, String buyerAddress,String shopAddress) {
         JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("userId", userId);
         jsonObject.addProperty("goodId", goodId);
         jsonObject.addProperty("categoryId", categoryId);
         jsonObject.addProperty("goodState", goodState);
+        jsonObject.addProperty("getTypeInt", getTypeInt);
         jsonObject.addProperty("goodName", goodName);
         jsonObject.addProperty("goodDetail", goodDetail);
         jsonObject.addProperty("goodDiscount", goodDiscount);
@@ -210,6 +241,7 @@ public class NetApiUtil {
         jsonObject.addProperty("buyerName", buyerName);
         jsonObject.addProperty("buyerphone", buyerphone);
         jsonObject.addProperty("buyerAddress", buyerAddress);
+        jsonObject.addProperty("shopAddress", shopAddress);
         String httpStr = jsonObject.toString();
         HashMap<String, String> paramsMap = new HashMap<>();
         HttpRequestParam.addCommmonPostRequestValue(Global.getApplicationContext(), paramsMap);
@@ -291,6 +323,29 @@ public class NetApiUtil {
         HashMap<String, String> paramsMap = new HashMap<>();
         HttpRequestParam.addCommmonPostRequestValue(Global.getApplicationContext(), paramsMap);
         HttpCommon httpCommon = new HttpCommon(ApiUrlManger.appendUrl(ApiUrlManger.API_GOOD_LIST_BY_CID + "?categoryId=" + categoryId),
+                null);
+        ServerResultHeader csResult = httpCommon.getResponseAsCsResultGetJson(paramsMap, httpStr);
+        ServerResult<CommonResultMessage> resTagList = new ServerResult<CommonResultMessage>();
+        if (csResult != null) {
+            String responseStr = csResult.getResponseJson();
+            resTagList.setCsResult(csResult);
+            if (!TextUtils.isEmpty(responseStr)) {
+                try {
+                    CommonResultMessage userRegisterCompleteBean = new Gson().fromJson(responseStr, CommonResultMessage.class);
+                    resTagList.setResultBean(userRegisterCompleteBean);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return resTagList;
+    }
+
+    public static final ServerResult<CommonResultMessage> deleteGoodById(int goodId) {
+        String httpStr = "";
+        HashMap<String, String> paramsMap = new HashMap<>();
+        HttpRequestParam.addCommmonPostRequestValue(Global.getApplicationContext(), paramsMap);
+        HttpCommon httpCommon = new HttpCommon(ApiUrlManger.appendUrl(ApiUrlManger.API_GOOD_DELETE_BY_ID + "?goodId=" + goodId),
                 null);
         ServerResultHeader csResult = httpCommon.getResponseAsCsResultGetJson(paramsMap, httpStr);
         ServerResult<CommonResultMessage> resTagList = new ServerResult<CommonResultMessage>();
