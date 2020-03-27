@@ -88,7 +88,7 @@ public class GoodInfoActivity extends BaseActivity {
         } else {
             commonTitleTv.setText("修改商品");
             goodAddBt.setText("修改商品");
-            if(good != null){
+            if (good != null) {
                 goodNameEt.setText(good.getGoodName());
                 goodDetailEt.setText(good.getGoodDetail());
                 goodPriceEt.setText(good.getGoodPrice() + "");
@@ -97,7 +97,7 @@ public class GoodInfoActivity extends BaseActivity {
                 goodCategoryTv.setTag(good.getCategoryId());
                 goodPic = good.getGoodPic();
                 ImageLoader.getInstance().displayImage(goodPic, goodImageIv);
-            }else {
+            } else {
                 getGoodById(goodId);
             }
         }
@@ -185,7 +185,7 @@ public class GoodInfoActivity extends BaseActivity {
                     @Override
                     public void run() {
                         String bitmapEncodeStr = BitmapUtil.encodeBitmap(PhotoUtils.compress(PhotoUtils.getImageAbsolutePath(GoodInfoActivity.this, imageUri), ScreenUtil.getCurrentScreenWidth(getApplicationContext()), ScreenUtil.getCurrentScreenHeight(getApplicationContext())));
-                        ServerResult<CommonResultMessage> commonResultMessageServerResult = NetApiUtil.addGood(goodName, goodDetail, goodPrice, goodDiscount, bitmapEncodeStr, (int) tag, categoryName);
+                        ServerResult<CommonResultMessage> commonResultMessageServerResult = NetApiUtil.addGood(goodName, goodDetail, goodDiscount, goodPrice, bitmapEncodeStr, (int) tag, categoryName);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
