@@ -80,7 +80,7 @@ public class OrderDataListAdapter extends BaseAdapter<Order, BaseViewHolder> {
         ImageLoader.getInstance().displayImage(good.getGoodPic(), picIv);
         titleTv.setText(good.getGoodName());
         discountTv.setText("折扣：" + CommonUtil.stripZeros(good.getGoodDiscount() + ""));
-        priceTv.setText("价格：" + CommonUtil.stripZeros(CommonUtil.mul(Double.parseDouble(good.getGoodPrice()), Double.parseDouble(good.getGoodDiscount()) / 10) + ""));
+        priceTv.setText("价格：" + CommonUtil.stripZeros(CommonUtil.mul(Double.parseDouble(good.getGoodPrice()), CommonUtil.div(Double.parseDouble(good.getGoodDiscount()),10)) + ""));
         // categoryTc.setText("所属分类：" + good.getCategoryName());
 
         int goodState = good.getGoodState();

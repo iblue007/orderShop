@@ -45,8 +45,8 @@ public class PayMentActivity extends AppCompatActivity implements View.OnClickLi
         payBt.setOnClickListener(this);
         try {
             if (good != null) {
-                orderMontyTv.setText("￥ " + CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), good.getGoodDiscount() / 10) + ""));
-                needPayTv.setText("￥ " + CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), good.getGoodDiscount() / 10) + ""));
+                orderMontyTv.setText("￥ " + CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), CommonUtil.div(good.getGoodDiscount(),10)) + ""));
+                needPayTv.setText("￥ " + CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), CommonUtil.div(good.getGoodDiscount(),10)) + ""));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class PayMentActivity extends AppCompatActivity implements View.OnClickLi
         // TODO Auto-generated method stub
         String money = null;
         try {
-            money = CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), good.getGoodDiscount() / 10) + "");
+            money = CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), CommonUtil.div(good.getGoodDiscount(),10)) + "");
         } catch (Exception e) {
             e.printStackTrace();
             money = 0 + "";

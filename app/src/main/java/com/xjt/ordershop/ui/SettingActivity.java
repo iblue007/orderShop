@@ -75,6 +75,7 @@ public class SettingActivity extends BaseActivity {
             nameEt.setVisibility(View.VISIBLE);
         } else if (fromType == 3) {
             commonTitleTv.setText("设置餐厅地址");
+            settingIpEt.setHint("请输入餐厅地址");
             settingIpEt.setVisibility(View.VISIBLE);
             passwordEt.setVisibility(View.GONE);
             passwordEt2.setVisibility(View.GONE);

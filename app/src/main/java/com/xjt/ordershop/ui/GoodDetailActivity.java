@@ -162,14 +162,14 @@ public class GoodDetailActivity extends BaseActivity {
                                         if (good != null) {
                                             nameTv.setText(good.getGoodName());
 
-                                            discountTv.setText(CommonUtil.stripZeros(good.getGoodPrice() + ""));
+                                            discountTv.setText(CommonUtil.stripZeros(good.getGoodDiscount() + ""));
                                             categoryTv.setText(good.getCategoryName());
                                             detailTv.setText(good.getGoodDetail());
                                             ImageLoader.getInstance().displayImage(good.getGoodPic(), imageView);
                                             if (!isOrderDetail) {
                                                 priceTv.setText(CommonUtil.stripZeros(good.getGoodPrice() + ""));
                                             } else {
-                                                priceTv.setText(CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), good.getGoodDiscount() / 10) + ""));
+                                                priceTv.setText(CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), CommonUtil.div(good.getGoodDiscount(),10)) + ""));
                                                 orderNoTv.setText(orderId + "");
                                             }
                                         }

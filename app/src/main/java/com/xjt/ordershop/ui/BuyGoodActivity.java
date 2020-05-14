@@ -91,7 +91,7 @@ public class BuyGoodActivity extends BaseActivity {
         List<Good> goodList = new ArrayList<>();
         goodList.add(good);
         commonDataListAdapter.setNewData(goodList);
-        buyPriceTv.setText(CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), good.getGoodDiscount() / 10) + ""));
+        buyPriceTv.setText(CommonUtil.stripZeros(CommonUtil.mul(good.getGoodPrice(), CommonUtil.div(good.getGoodDiscount(),10)) + ""));
         initData();
     }
 
